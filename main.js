@@ -35,9 +35,12 @@ buttons.forEach((btn) => {
         const screen = document.getElementById("screen");
         if (screen.innerHTML == 0) {
             screen.innerHTML = btn.textContent;
+        } else if (btn.textContent == "AC") {
+            screen.innerHTML = 0;
         } else {
             screen.innerHTML += btn.textContent;
         }
-        console.log(btn.textContent);
+        // console.log(btn.textContent);
+
     });
 });
