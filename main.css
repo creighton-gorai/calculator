@@ -70,8 +70,12 @@ button {
 
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
-    font-size: 13px;
+    font-size: 30px;
     font-style: normal;
+}
+
+button:active {
+    filter: brightness(125%);
 }
 
 #divide, #multiply, #minus, #plus, #modulo, #equals {
