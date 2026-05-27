@@ -75,7 +75,7 @@ button {
 }
 
 button:active {
-    filter: brightness(125%);
+    filter: brightness(150%);
 }
 
 #divide, #multiply, #minus, #plus, #modulo, #equals {
