@@ -33,14 +33,15 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
         const screen = document.getElementById("screen");
+        const operatorRegex = /[+\-*/]/g;
         if (screen.innerHTML == 0) {
-            screen.innerHTML = btn.textContent;
+            if (!operatorRegex.test(btn.textContent)) {
+                screen.innerHTML = btn.textContent;
+            }
         } else if (btn.textContent == "AC") {
             screen.innerHTML = 0;
         } else {
             screen.innerHTML += btn.textContent;
         }
-        // console.log(btn.textContent);
-
     });
 });
