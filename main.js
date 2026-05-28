@@ -1,29 +1,29 @@
 const addition = function(numOne, numTwo) {
-    return numOne + numTwo;
+    return Number(numOne) + Number(numTwo);
 }
 
 const subtraction = function(numOne, numTwo) {
-    return numOne - numTwo;
+    return Number(numOne) - Number(numTwo);
 }
 
 const multiplication = function(numOne, numTwo) {
-    return numOne * numTwo;
+    return Number(numOne) * Number(numTwo);
 }
 
 const division = function(numOne, numTwo) {
-    return numOne / numTwo;
+    return Number(numOne) / Number(numTwo);
 }
 
 const operate = function(operator, numOne, numTwo) {
     switch (operator) {
-        case "plus":
-            addition(numOne, numTwo);
-        case "minus":
-            subtraction(numOne, numTwo);
-        case "multiply":
-            multiplication(numOne, numTwo);
-        case "divide":
-            division(numOne, numTwo);
+        case "+":
+            return addition(numOne, numTwo);
+        case "-":
+            return subtraction(numOne, numTwo);
+        case "x":
+            return multiplication(numOne, numTwo);
+        case "/":
+            return division(numOne, numTwo);
     }
 }
 
@@ -44,11 +44,14 @@ buttons.forEach((btn) => {
         } else {
             // If button was an operator
             if (operatorRegex.test(btn.textContent)) {
-                // If there was no previous operator input. If true do nothing
-                if (!operatorRegex.test(screen.innerHTML[-1])) {
-                    console.log("We did it!");
+                // If there is an operator in the equation
+                if (operatorRegex.test(screen.innerHTML)) {
+                    const operator = screen.innerHTML.match(operatorRegex);
+                    const numArray = screen.innerHTML.split(operator);
+                    screen.innerHTML = operate(operator[0], numArray[0], numArray[1]) + btn.textContent;
+                } else {
+                    screen.innerHTML += btn.textContent;
                 }
-                
             } else {
                 // If button was a number
                 // Replace zero with the number
