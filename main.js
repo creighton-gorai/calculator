@@ -33,7 +33,7 @@ const buttons = document.querySelectorAll('button');
 buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
         const screen = document.getElementById("screen");
-        const operatorRegex = /[+\-*/]/g;
+        const operatorRegex = /[+\-\x/%\.]/g;
         if (screen.innerHTML == 0) {
             if (!operatorRegex.test(btn.textContent)) {
                 screen.innerHTML = btn.textContent;
