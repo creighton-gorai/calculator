@@ -49,7 +49,8 @@ buttons.forEach((btn) => {
                     const operator = screen.innerHTML.match(operatorRegex);
                     const numArray = screen.innerHTML.split(operator);
                     screen.innerHTML = operate(operator[0], numArray[0], numArray[1]) + btn.textContent;
-                } else {
+                // Check if previous button press was an operator
+                } else if (!operatorRegex.test(screen.innerHTML.at(-1))) {
                     screen.innerHTML += btn.textContent;
                 }
             } else {
