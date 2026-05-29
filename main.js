@@ -44,15 +44,23 @@ buttons.forEach((btn) => {
         } else {
             // If button was an operator
             if (operatorRegex.test(btn.textContent)) {
-                // If there is an operator in the equation
-                if (operatorRegex.test(screen.innerHTML)) {
+                // Checks input is = and there is an equation in the current string. Evaluate.
+                if (btn.textContent == "=" && operatorRegex.test(screen.innerHTML)) {
+                    const operator = screen.innerHTML.match(operatorRegex);
+                    const numArray = screen.innerHTML.split(operator);
+                    screen.innerHTML = operate(operator[0], numArray[0], numArray[1]);
+                // evaluate if this is the second operator input
+                } else if (operatorRegex.test(screen.innerHTML)) {
                     const operator = screen.innerHTML.match(operatorRegex);
                     const numArray = screen.innerHTML.split(operator);
                     screen.innerHTML = operate(operator[0], numArray[0], numArray[1]) + btn.textContent;
                 // Check if previous button press was an operator
+                } else if (btn.textContent == "=") {
+                    screen.innerHTML = screen.innerHTML;
                 } else if (!operatorRegex.test(screen.innerHTML.at(-1))) {
                     screen.innerHTML += btn.textContent;
-                }
+                // TODO Don't add equals sign to the screen EVER
+                } 
             } else {
                 // If button was a number
                 // Replace zero with the number
