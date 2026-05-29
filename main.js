@@ -30,47 +30,40 @@ const operate = function(operator, numOne, numTwo) {
 // Getting button clicks
 const buttons = document.querySelectorAll('button');
 
-// Each time the button is pressed check what was pressed and evaluate
+// Button listener
 buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
-        const screen = document.getElementById("screen");
-        const operatorRegex = /[+\-x/=]/g; // Currently only checking for plus, minus, multiply, divide
-
-        // If AC was clicked clear the screen
-        if (btn.textContent == "AC") {
-            screen.innerHTML = "0";
-
-        // Check button input
-        } else {
-            // If button was an operator
-            if (operatorRegex.test(btn.textContent)) {
-                // Checks input is = and there is an equation in the current string. Evaluate.
-                if (btn.textContent == "=" && operatorRegex.test(screen.innerHTML)) {
-                    const operator = screen.innerHTML.match(operatorRegex);
-                    const numArray = screen.innerHTML.split(operator);
-                    screen.innerHTML = operate(operator[0], numArray[0], numArray[1]);
-                // evaluate if this is the second operator input
-                } else if (operatorRegex.test(screen.innerHTML)) {
-                    const operator = screen.innerHTML.match(operatorRegex);
-                    const numArray = screen.innerHTML.split(operator);
-                    screen.innerHTML = operate(operator[0], numArray[0], numArray[1]) + btn.textContent;
-                // Check if previous button press was an operator
-                } else if (btn.textContent == "=") {
-                    screen.innerHTML = screen.innerHTML;
-                } else if (!operatorRegex.test(screen.innerHTML.at(-1))) {
-                    screen.innerHTML += btn.textContent;
-                // TODO Don't add equals sign to the screen EVER
-                } 
-            } else {
-                // If button was a number
-                // Replace zero with the number
-                if (screen.innerHTML == "0") {
-                    screen.innerHTML = btn.textContent;
-                // Else add it to the previous numbers
-                } else {
-                    screen.innerHTML += btn.textContent;
-                }
-            }
-        }
+        buttonEval(btn.textContent);
     });
 });
+
+const buttonEval = function(button) {
+    const screen = document.getElementById("screen");
+    const operatorRegex = /[+\-x/=]/g; // Global regex for plus, minus, multiply, and divide
+    const numberRegex = /^-?\d*(\.\d+)?$/; // Global regex for all digits, including negative and floating point
+
+    let numOne = "0";
+    let numTwo = "0";
+
+
+    switch (true) {
+        case button == "AC":
+            return screen.innerHTML = "0";
+        case button == "C":
+            if (screen.innerHTML.length == 1) {
+                return screen.innerHTML = "0";
+            } else {
+                return screen.innerHTML = screen.innerHTML.slice(0, -1);
+            }
+        // Check if it is an operator, then evaluate
+        case operatorRegex.test(button):
+            console.log("Operator called");
+            break;
+        case numberRegex.test(button):
+            if (screen.innerHTML == "0") {
+                screen.innerHTML = button;
+            } else {
+                return screen.innerHTML += button;
+            }
+    }
+}
