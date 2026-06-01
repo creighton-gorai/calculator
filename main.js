@@ -92,6 +92,9 @@ const operatorEval = function(button) {
         const numArray = screen.innerHTML.split(operator).filter(x => x);
 
         if (numArray.length <= 1) {
+            if (operatorRegex.test(screen.innerHTML.at(-1))) {
+                return screen.innerHTML = screen.innerHTML.replace(/.$/, button);
+            }
             return screen.innerHTML += button;
         } else {
             return screen.innerHTML = operate(operator, numArray[0], numArray[1]) + button;
