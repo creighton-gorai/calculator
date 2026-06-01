@@ -74,12 +74,15 @@ const operatorEval = function(button) {
         case screen.innerHTML.at(-1).includes(button): // DONE
             return;
         case button == "=": // DONE
-        // TODO Deletes previous operator if there were no 2 numbers to calculate
-        // Ex: 6+ ===> 6
             if (operatorRegex.test(screen.innerHTML)) {
                 const operator = screen.innerHTML.match(operatorRegex)[0];
-                const numArray = screen.innerHTML.split(operator);
-                return screen.innerHTML = operate(operator, numArray[0], numArray[1]);
+                const numArray = screen.innerHTML.split(operator).filter(x => x);
+
+                if (numArray.length <= 1) {
+                    return;
+                } else {
+                    return screen.innerHTML = operate(operator, numArray[0], numArray[1]);
+                }
             } else {
                 return;
             }
