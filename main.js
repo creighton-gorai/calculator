@@ -69,39 +69,34 @@ const operatorEval = function(button) {
     const screen = document.getElementById("screen");
     const operatorRegex = /[+\-x/=]/g; // Global regex for plus, minus, multiply, and divide
 
-    switch (true) {
-        // Duplicate check
-        case screen.innerHTML.at(-1).includes(button): // DONE
-            return;
-        case button == "=": // DONE
-            if (operatorRegex.test(screen.innerHTML)) {
-                const operator = screen.innerHTML.match(operatorRegex)[0];
-                const numArray = screen.innerHTML.split(operator).filter(x => x);
+    // Checks for duplicates
+    if (screen.innerHTML.at(-1).includes(button)) {
+        return;
+    // Evaluates equals
+    } else if (button == "=") {
+        if (operatorRegex.test(screen.innerHTML)) {
+            const operator = screen.innerHTML.match(operatorRegex)[0];
+            const numArray = screen.innerHTML.split(operator).filter(x => x);
 
-                if (numArray.length <= 1) {
-                    return;
-                } else {
-                    return screen.innerHTML = operate(operator, numArray[0], numArray[1]);
-                }
-            } else {
+            if (numArray.length <= 1) {
                 return;
-            }
-        case button == "+":
-            if (operatorRegex.test(screen.innerHTML)) {
-                const operator = screen.innerHTML.match(operatorRegex)[0];
-                const numArray = screen.innerHTML.split(operator);
-                return screen.innerHTML = operate(operator, numArray[0], numArray[1]) + "+";
             } else {
-                return screen.innerHTML += button;
+                return screen.innerHTML = operate(operator, numArray[0], numArray[1]);
             }
-            return screen.innerHTML += button;
+        } else {
+            return;
+        }
+    // Evaluates all other operators
+    } else if (operatorRegex.test(screen.innerHTML)) {
+        const operator = screen.innerHTML.match(operatorRegex)[0];
+        const numArray = screen.innerHTML.split(operator).filter(x => x);
 
-        // Check for negatives
-        case button == "-":
-            return console.log("minus");
-        case button == "x":
-            return console.log("multiply");
-        case button == "/":
-            return console.log("divide");
+        if (numArray.length <= 1) {
+            return screen.innerHTML += button;
+        } else {
+            return screen.innerHTML = operate(operator, numArray[0], numArray[1]) + button;
+        }
+    } else {
+        return screen.innerHTML += button;
     }
 }
