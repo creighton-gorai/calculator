@@ -37,14 +37,11 @@ buttons.forEach((btn) => {
     });
 });
 
+// Evaluate each button press
 const buttonEval = function(button) {
     const screen = document.getElementById("screen");
     const operatorRegex = /[+\-x/=]/g; // Global regex for plus, minus, multiply, and divide
     const numberRegex = /^-?\d*(\.\d+)?$/; // Global regex for all digits, including negative and floating point
-
-    let numOne = "0";
-    let numTwo = "0";
-
 
     switch (true) {
         case button == "AC":
@@ -55,15 +52,53 @@ const buttonEval = function(button) {
             } else {
                 return screen.innerHTML = screen.innerHTML.slice(0, -1);
             }
-        // Check if it is an operator, then evaluate
-        case operatorRegex.test(button):
-            console.log("Operator called");
-            break;
+        // Checks for duplicates or operator switches
+        case operatorRegex.test(button): 
+            return operatorEval(button);
         case numberRegex.test(button):
             if (screen.innerHTML == "0") {
-                screen.innerHTML = button;
+                return screen.innerHTML = button;
             } else {
                 return screen.innerHTML += button;
             }
+    }
+}
+
+// Operator button evaluation function
+const operatorEval = function(button) {
+    const screen = document.getElementById("screen");
+    const operatorRegex = /[+\-x/=]/g; // Global regex for plus, minus, multiply, and divide
+
+    switch (true) {
+        // Duplicate check
+        case screen.innerHTML.at(-1).includes(button): // DONE
+            return;
+        case button == "=": // DONE
+        // TODO Deletes previous operator if there were no 2 numbers to calculate
+        // Ex: 6+ ===> 6
+            if (operatorRegex.test(screen.innerHTML)) {
+                const operator = screen.innerHTML.match(operatorRegex)[0];
+                const numArray = screen.innerHTML.split(operator);
+                return screen.innerHTML = operate(operator, numArray[0], numArray[1]);
+            } else {
+                return;
+            }
+        case button == "+":
+            if (operatorRegex.test(screen.innerHTML)) {
+                const operator = screen.innerHTML.match(operatorRegex)[0];
+                const numArray = screen.innerHTML.split(operator);
+                return screen.innerHTML = operate(operator, numArray[0], numArray[1]) + "+";
+            } else {
+                return screen.innerHTML += button;
+            }
+            return screen.innerHTML += button;
+
+        // Check for negatives
+        case button == "-":
+            return console.log("minus");
+        case button == "x":
+            return console.log("multiply");
+        case button == "/":
+            return console.log("divide");
     }
 }
